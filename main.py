@@ -20,22 +20,27 @@ def generate_x_post(topic:str)->str:
         {topic}
         </topic>
     '''
-    
+
     payload = {
         "model":"gpt-4o-mini",
         "input": prompt
     }
     
-    resonse = requests.post(
+    response = requests.post(
         "https://api.openai.com/v1/responses", 
         json=payload,
         headers={
             "Content-Type":"application/json",
             "Authorization":f"Bearer {OPENAI_API_KEY}"
         })
+    
+    response_text = response.json().get("output",[{}])[0].get("content",[{}])[0].get("text","")
+
+    return response_text
+    
 
 def main():
-    user_input = input("What you want the post to be about?")
+    user_input = input("What you want the post to be about? ")
     x_post = generate_x_post(user_input)
     print(x_post)
 
