@@ -1,11 +1,28 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 client = OpenAI()
 
 def generate_x_post(topic:str)->str:
+    with open("post-examples.json") as f:
+        examples = json.load(f)
+    examples_str = ""
+
+    for i, example in enumerate(examples, 1):
+        examples_str += f'''
+        <example-{i}>
+            <topic>
+                {example['topic']}
+            </topic>
+
+            <generated-post>
+                {example['post']}
+            </generated-post>
+        </example-{i}>
+        '''
 
     prompt = f'''
         You are an expert social media manager, and you excel at crafting viral and highly engaging posts for the platform X (formerly twitter).
@@ -22,25 +39,7 @@ def generate_x_post(topic:str)->str:
         
         Here are some examples of topics and generated posts:
         <examples>
-            <example-1>
-                <topic>
-                 Rose
-                </topic>
-
-                <generated-post>
-                    A rose is a rose is a rose.
-                </generated-post>
-            </example-1>
-
-            <example-2>
-                <topic>
-                    Rain
-                </topic>
-
-                <generated-post>
-                    When in pain all you need is rain.
-                </generated-post>
-            </example-2>
+            {examples_str}
         </examples>
 
         Use the same tone, language, structure and style of the examples provided above to generate a post that is engaging and relevant
