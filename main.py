@@ -1,9 +1,9 @@
 import os
-import requests
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI()
 
 def generate_x_post(topic:str)->str:
 
@@ -21,22 +21,12 @@ def generate_x_post(topic:str)->str:
         </topic>
     '''
 
-    payload = {
-        "model":"gpt-4o-mini",
-        "input": prompt
-    }
-    
-    response = requests.post(
-        "https://api.openai.com/v1/responses", 
-        json=payload,
-        headers={
-            "Content-Type":"application/json",
-            "Authorization":f"Bearer {OPENAI_API_KEY}"
-        })
-    
-    response_text = response.json().get("output",[{}])[0].get("content",[{}])[0].get("text","")
+    response = client.responses.create(
+    model="gpt-4o-mini",
+    input=prompt
+)
 
-    return response_text
+    return response.output_text
     
 
 def main():
