@@ -18,8 +18,34 @@ def generate_x_post(topic:str)->str:
         Here's the topic provided by the user for which you need to generate a post:
         <topic>
         {topic}
-        </topic>
-    '''
+        </topic>    
+        
+        Here are some examples of topics and generated posts:
+        <examples>
+            <example-1>
+                <topic>
+                 Rose
+                </topic>
+
+                <generated-post>
+                    A rose is a rose is a rose.
+                </generated-post>
+            </example-1>
+
+            <example-2>
+                <topic>
+                    Rain
+                </topic>
+
+                <generated-post>
+                    When in pain all you need is rain.
+                </generated-post>
+            </example-2>
+        </examples>
+
+        Use the same tone, language, structure and style of the examples provided above to generate a post that is engaging and relevant
+        to the topic provided by the user. Don't use content from the examples!
+        '''
 
     response = client.responses.create(
     model="gpt-4o-mini",
